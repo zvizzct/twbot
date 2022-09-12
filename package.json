@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "cron": "^2.1.0",
+    "firebase": "^9.9.4",
+    "octokit": "^2.0.7",
+    "twit": "^2.2.11",
+    "twitter-api-v2": "^1.12.6"
+  },
+  "name": "twbot",
+  "version": "1.0.0",
+  "main": "twbot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
