@@ -70,18 +70,17 @@ const codeToImg = async (message, code) => {
     .catch((err) => {
       console.error(err);
     });
+  tweet(message);
 };
 
-const tweet = async () => {
+const tweet = async (message) => {
   try {
     const mediaId = await rwClient.v1.uploadMedia("example.png");
-    await rwClient.v2.tweet("storedText", { mediaId: mediaId });
+    await rwClient.v1.tweet(message, { media_ids: mediaId });
   } catch (e) {
     console.error(e);
   }
 };
-
-tweet();
 
 /* const job = new CronJob("* * * * *", () => {
   console.log("hi");
