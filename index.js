@@ -1,11 +1,9 @@
-const rwClient = require("./twitterClient.js");
-const octokit = require("./twitterClient.js");
-const textToImage = require("text-to-image");
-const path = require("path");
+const { rwClient, octokit } = require("./twitterClient.js");
+const RaySo = require("rayso.js");
 
 const CronJob = require("cron").CronJob;
-
 let lastDate = new Date();
+let commit_message = "";
 
 const commit = async () => {
   try {
@@ -26,52 +24,68 @@ const getData = async (url) => {
 };
 const processData = async (data) => {
   const { commit, url } = data;
+  const { message } = commit;
+  commit_message = message;
+
   const { files } = await getData(url);
   const { raw_url } = files[0];
 
-  getCode(raw_url);
+  getCode(message, raw_url);
   let newDate = new Date(commit.committer.date);
+  lastDate = new Date(newDate);
+  console.log(lastDate, newDate);
   if (checkDate(newDate)) {
-    getCode();
+    getCode(message, raw_url);
   }
 };
 
-const getCode = async (raw_url) => {
+const getCode = async (message, raw_url) => {
   fetch(raw_url).then(function (response) {
     response.text().then(function (text) {
       storedText = text;
-      generate_img(storedText);
+      codeToImg(message, storedText);
     });
   });
 };
 
 const checkDate = (newDate) => {
-  if (newDate > lastDate) return true;
+  if (newDate >= lastDate) return true;
   console.log("No updates found");
   return false;
 };
 
 commit();
 
+const codeToImg = async (message, code) => {
+  const raySo = new RaySo({
+    title: message,
+    padding: 32,
+    language: "javascript",
+    localPreview: true,
+    browserPath: "/usr/bin/google-chrome-stable",
+  });
+  raySo
+    .cook(code)
+    .then((response) => {})
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
 const tweet = async () => {
   try {
-    await rwClient.v2.tweet("xd");
+    const mediaId = await rwClient.v1.uploadMedia("example.png");
+    await rwClient.v2.tweet("storedText", { mediaId: mediaId });
   } catch (e) {
     console.error(e);
   }
 };
 
-const job = new CronJob("* * * * *", () => {
+tweet();
+
+/* const job = new CronJob("* * * * *", () => {
   console.log("hi");
-  //tweet();
+  tweet();
 });
 
-//job.start();
-
-const generate_img = async (storedText) => {
-  const text = storedText;
-  const dataUri = await textToImage.generate(text, {
-    debug: true,
-    debugFilename: path.join("img", `codewars.png`),
-  });
-};
+job.start(); */

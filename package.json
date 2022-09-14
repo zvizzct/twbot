@@ -1,11 +1,8 @@
 {
   "dependencies": {
     "cron": "^2.1.0",
-    "firebase": "^9.9.4",
     "octokit": "^2.0.7",
-    "path": "^0.12.7",
-    "text-to-image": "^5.2.0",
-    "twit": "^2.2.11",
+    "rayso.js": "^1.1.2",
     "twitter-api-v2": "^1.12.6"
   },
   "name": "twbot",
