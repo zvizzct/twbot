@@ -2,14 +2,14 @@ const { rwClient, octokit } = require("./twitterClient.js");
 const RaySo = require("rayso.js");
 
 const CronJob = require("cron").CronJob;
-let lastDate = new Date();
+let lastDate = null;
 let commit_message = "";
 
 const commit = async () => {
   try {
     const result = await octokit.request("GET /repos/{owner}/{repo}/commits", {
       owner: "zvizzct",
-      repo: "codewars",
+      repo: "Codewars",
     });
     const { data } = result;
     processData(data[0]);
@@ -30,35 +30,32 @@ const processData = async (data) => {
   const { files } = await getData(url);
   const { raw_url } = files[0];
 
-  getCode(message, raw_url);
   let newDate = new Date(commit.committer.date);
-  lastDate = new Date(newDate);
-  console.log(lastDate, newDate);
   if (checkDate(newDate)) {
-    getCode(message, raw_url);
+    lastDate = new Date(newDate);
+    console.log("Commit found!");
+    getCode(raw_url);
   }
 };
 
-const getCode = async (message, raw_url) => {
+const getCode = async (raw_url) => {
   fetch(raw_url).then(function (response) {
     response.text().then(function (text) {
       storedText = text;
-      codeToImg(message, storedText);
+      codeToImg(storedText);
     });
   });
 };
 
 const checkDate = (newDate) => {
-  if (newDate >= lastDate) return true;
+  if (newDate > lastDate) return true;
   console.log("No updates found");
   return false;
 };
 
-commit();
-
-const codeToImg = async (message, code) => {
+const codeToImg = async (code) => {
   const raySo = new RaySo({
-    title: message,
+    title: commit_message,
     padding: 32,
     language: "javascript",
     localPreview: true,
@@ -66,25 +63,29 @@ const codeToImg = async (message, code) => {
   });
   raySo
     .cook(code)
-    .then((response) => {})
+    .then((response) => {
+      tweet();
+    })
     .catch((err) => {
       console.error(err);
     });
-  tweet(message);
 };
 
-const tweet = async (message) => {
+const tweet = async () => {
   try {
     const mediaId = await rwClient.v1.uploadMedia("example.png");
-    await rwClient.v1.tweet(message, { media_ids: mediaId });
+    await rwClient.v1.tweet(
+      `${commit_message} #100DaysOfCode #Codewars #javascript`,
+      { media_ids: mediaId }
+    );
   } catch (e) {
     console.error(e);
   }
 };
 
-/* const job = new CronJob("* * * * *", () => {
-  console.log("hi");
-  tweet();
+const job = new CronJob("0 */12 * * *", () => {
+  commit();
 });
 
-job.start(); */
+//commit();
+job.start();
