@@ -2,25 +2,19 @@ const RaySo = require("rayso.js");
 const { TwitterApi } = require("twitter-api-v2");
 const { Octokit } = require("octokit");
 
-let appkey = "";
-let appsecret = "";
-let accesstoken = "";
-let accessecret = "";
-let authgit = "";
-
 const CronJob = require("cron").CronJob;
 let lastDate = null;
 let commit_message = "";
 
 const client = new TwitterApi({
-  appKey: appkey,
-  appSecret: appsecret,
-  accessToken: accesstoken,
-  accessSecret: accessecret,
+  appKey: process.env.APPKEY,
+  appSecret: process.env.APPSECRET,
+  accessToken: process.env.ACCESSTOKEN,
+  accessSecret: process.env.ACESSSECRET,
 });
 
 const octokit = new Octokit({
-  auth: authgit,
+  auth: process.env.AUTHGIT,
 });
 
 const rwClient = client.readWrite;
