@@ -2,7 +2,7 @@ const RaySo = require("rayso.js");
 /* const { rwClient, octokit } = require("./twitterClient.js");
 
  */
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 const { TwitterApi } = require("twitter-api-v2");
 const { Octokit } = require("octokit");
 

@@ -1,4 +1,6 @@
 {
+  "type": "module",
+
   "dependencies": {
     "cron": "^2.1.0",
     "dotenv": "^16.0.2",
@@ -7,6 +9,7 @@
     "rayso.js": "^1.1.2",
     "twitter-api-v2": "^1.12.6"
   },
+  
   "name": "twbot",
   "version": "1.0.0",
   "main": "twbot.js",
