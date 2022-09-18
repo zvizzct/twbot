@@ -1,7 +1,7 @@
 /* const { rwClient, octokit } = require("./twitterClient.js");
 
  */
-import RaySo from "rayso.js/src/rayso";
+import RaySo from "rayso-api";
 import fetch from "node-fetch";
 import { TwitterApi } from "twitter-api-v2";
 import { Octokit } from "octokit";
