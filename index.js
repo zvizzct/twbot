@@ -1,33 +1,9 @@
-/* const { rwClient, octokit } = require("./twitterClient.js");
-
- */
-import RaySo from "rayso-api";
-import fetch from "node-fetch";
-import { TwitterApi } from "twitter-api-v2";
-import { Octokit } from "octokit";
-import { CronJob } from "cron";
+const { rwClient, octokit } = require("./twitterClient.js");
+const RaySo = require("rayso.js");
+const CronJob = require("cron").CronJob;
 
 let lastDate = null;
 let commit_message = "";
-
-let appkey = process.env.APPKEY;
-let appsecret = process.env.APPSECRET;
-let accesstoken = process.env.ACCESSTOKEN;
-let accesssecret = process.env.ACESSSECRET;
-let authgit = process.env.AUTHGIT;
-
-const client = new TwitterApi({
-  appKey: appkey,
-  appSecret: appsecret,
-  accessToken: accesstoken,
-  accessSecret: accesssecret,
-});
-
-const octokit = new Octokit({
-  auth: authgit,
-});
-
-const rwClient = client.readWrite;
 
 const commit = async () => {
   try {
@@ -111,5 +87,4 @@ const job = new CronJob("* * * * *", () => {
   commit();
 });
 
-//commit();
 job.start();
