@@ -1,12 +1,12 @@
-const RaySo = require("rayso.js");
 /* const { rwClient, octokit } = require("./twitterClient.js");
 
  */
+import RaySo from "rayso.js/src/rayso";
 import fetch from "node-fetch";
-const { TwitterApi } = require("twitter-api-v2");
-const { Octokit } = require("octokit");
+import { TwitterApi } from "twitter-api-v2";
+import { Octokit } from "octokit";
+import { CronJob } from "cron";
 
-const CronJob = require("cron").CronJob;
 let lastDate = null;
 let commit_message = "";
 
