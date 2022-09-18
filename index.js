@@ -2,11 +2,11 @@ const RaySo = require("rayso.js");
 const { TwitterApi } = require("twitter-api-v2");
 const { Octokit } = require("octokit");
 
-const appkey = "";
-const appsecret = "";
-const accessToken = "";
-const accessecret = "";
-const authgit = "";
+let appkey = "";
+let appsecret = "";
+let accesstoken = "";
+let accessecret = "";
+let authgit = "";
 
 const CronJob = require("cron").CronJob;
 let lastDate = null;
@@ -15,7 +15,7 @@ let commit_message = "";
 const client = new TwitterApi({
   appKey: appkey,
   appSecret: appsecret,
-  accessToken: accessToken,
+  accessToken: accesstoken,
   accessSecret: accessecret,
 });
 
