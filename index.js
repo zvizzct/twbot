@@ -1,4 +1,6 @@
 const RaySo = require("rayso.js");
+/* const { rwClient, octokit } = require("./twitterClient.js");
+ */
 const { TwitterApi } = require("twitter-api-v2");
 const { Octokit } = require("octokit");
 
@@ -6,15 +8,21 @@ const CronJob = require("cron").CronJob;
 let lastDate = null;
 let commit_message = "";
 
+let appkey = process.env.APPKEY;
+let appsecret = process.env.APPSECRET;
+let accesstoken = process.env.ACCESSTOKEN;
+let accesssecret = process.env.ACESSSECRET;
+let authgit = process.env.AUTHGIT;
+
 const client = new TwitterApi({
-  appKey: process.env.APPKEY,
-  appSecret: process.env.APPSECRET,
-  accessToken: process.env.ACCESSTOKEN,
-  accessSecret: process.env.ACESSSECRET,
+  appKey: appkey,
+  appSecret: appsecret,
+  accessToken: accesstoken,
+  accessSecret: accesssecret,
 });
 
 const octokit = new Octokit({
-  auth: process.env.AUTHGIT,
+  auth: authgit,
 });
 
 const rwClient = client.readWrite;
@@ -97,7 +105,7 @@ const tweet = async () => {
   }
 };
 
-const job = new CronJob("0 */12 * * *", () => {
+const job = new CronJob("* * * * *", () => {
   commit();
 });
 
