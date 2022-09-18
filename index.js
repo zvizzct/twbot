@@ -1,9 +1,29 @@
-const { rwClient, octokit } = require("./twitterClient.js");
 const RaySo = require("rayso.js");
+const { TwitterApi } = require("twitter-api-v2");
+const { Octokit } = require("octokit");
+
+const appkey = "";
+const appsecret = "";
+const accessToken = "";
+const accessecret = "";
+const authgit = "";
 
 const CronJob = require("cron").CronJob;
 let lastDate = null;
 let commit_message = "";
+
+const client = new TwitterApi({
+  appKey: appkey,
+  appSecret: appsecret,
+  accessToken: accessToken,
+  accessSecret: accessecret,
+});
+
+const octokit = new Octokit({
+  auth: authgit,
+});
+
+const rwClient = client.readWrite;
 
 const commit = async () => {
   try {
