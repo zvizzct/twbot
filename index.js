@@ -8,6 +8,7 @@ let commit_message = "";
 
 const commit = async () => {
   try {
+    console.log("Finding new commits....");
     const result = await octokit.request("GET /repos/{owner}/{repo}/commits", {
       owner: "zvizzct",
       repo: "Codewars",
