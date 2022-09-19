@@ -1,6 +1,7 @@
 const { rwClient, octokit } = require("./twitterClient.js");
 const RaySo = require("rayso.js");
 const CronJob = require("cron").CronJob;
+const fetch = require("node-fetch");
 
 let lastDate = null;
 let commit_message = "";
@@ -83,7 +84,7 @@ const tweet = async () => {
   }
 };
 
-const job = new CronJob("* * * * *", () => {
+const job = new CronJob("0 */12 * * *", () => {
   commit();
 });
 
